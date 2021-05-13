@@ -1,8 +1,15 @@
-function main(debug)
+function main(debug, output_size, showImages)
     files = getInputFiles("input");
+    
+    if ~exist('output', 'dir')
+        mkdir("output");
+    end
+    if ~exist(fullfile("output", "failures"), 'dir')
+        mkdir(fullfile("output", "failures"));
+    end
+    
     for i = 1:size(files, 1)
-        file = fullfile(files(i).folder,files(i).name);
-        segmentation(file);
+        segmentation(files(i).folder, files(i).name, output_size, showImages);
         if debug
             pause;
         end
