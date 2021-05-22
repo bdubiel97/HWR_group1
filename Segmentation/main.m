@@ -4,8 +4,8 @@ function main(debug, output_size, showImages)
     if ~exist('output', 'dir')
         mkdir("output");
     end
-    if ~exist(fullfile("output", "failures"), 'dir')
-        mkdir(fullfile("output", "failures"));
+    if ~exist(fullfile("output_failures"), 'dir')
+        mkdir(fullfile("output_failures"));
     end
     
     for i = 1:size(files, 1)

@@ -71,15 +71,17 @@ function segmentation(path, file, output_size, showImages)
     for k = 1 : length(info)
         BB = info(k).BoundingBox;
         if k > 1
-            bbc = ceil(BB); bbc(4) = bbc(4) + bbc(2); bbc(3) = bbc(3) + bbc(1);
+            bbc = ceil(BB); bbc(4) = bbc(4) + bbc(2)-1; bbc(3) = bbc(3) + bbc(1)-1;
             char = I2(bbc(2):bbc(4), bbc(1):bbc(3));
             max_x = max(size(char, 1), max_x);
             max_y = max(size(char, 2), max_y);
-            saveImage(char, strcat(file, int2str(k)), output_size);
+            
+            names = strsplit(file, '.');
+            saveImage(char, strcat(names(1), "-", int2str(k)), output_size);
         end
         if showImages
             rectangle('Position', [BB(1),BB(2),BB(3),BB(4)],'EdgeColor','r','LineWidth',1) ;
         end
     end
-    disp([max_x, max_y]);
+    fprintf("Largest character segmented in this image: %d x %d\n", max_x, max_y);
 end
