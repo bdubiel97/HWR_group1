@@ -18,8 +18,8 @@ M = np.float32([[1, 0.2, 0],
             	[0, 0  , 1]])
 
 folders = os.listdir(imDir)
-folders.remove('.DS_Store')
-#print(folders)
+if '.DS_Store' in folders:
+	folders.remove('.DS_Store')
 
 for dirExtension in folders:
 	path = imDir + "/" + dirExtension + "/"
