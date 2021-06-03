@@ -8,11 +8,13 @@ function saveImage(image, name, output_size)
 
         image = padarray(image, to_pad, 0, 'pre');
         image = padarray(image, output_size - size(image), 0, 'post');
+        image = ~image;
         
         disp(fullfile(path, name));
         imwrite(image, fullfile(path, name));
     else
         path = fullfile(pwd, 'output_failures');
+        image = ~image;
         imwrite(image, fullfile(path, name));
         fprintf("Image %s too big: %d %d\n", name, size(image, 1), size(image, 2));
     end
