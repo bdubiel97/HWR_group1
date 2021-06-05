@@ -75,9 +75,9 @@ function segmentation(path, file, output_size, showImages)
             char = I2(bbc(2):bbc(4), bbc(1):bbc(3));
             max_x = max(size(char, 1), max_x);
             max_y = max(size(char, 2), max_y);
-            
-            names = strsplit(file, '.');
-            saveImage(char, strcat(names(1), "-", int2str(k)), output_size);
+            name = strsplit(file, '.');
+            name = strcat(fullfile(name(1), strcat(int2str(k), ".jpg")));
+            saveImage(char, name(1), output_size);
         end
         if showImages
             rectangle('Position', [BB(1),BB(2),BB(3),BB(4)],'EdgeColor','r','LineWidth',1) ;
