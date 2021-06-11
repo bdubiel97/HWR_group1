@@ -66,8 +66,8 @@ x_train, x_test, y_train, y_test = train_test_split(data, labels, stratify=label
 
 
 som = MiniSom(15, 15, len(data[0]), learning_rate=0.5, sigma=3)
-som.train_random(archaic, 100)
-som.pca_weights_init(archaic)
+som.train_random(x_train, 100)
+som.pca_weights_init(x_train)
 with open('som15x15.p', 'wb') as outfile:
 	pickle.dump(som, outfile)
 
@@ -81,7 +81,5 @@ print(classification_report(y_test, classifications))
 """ 
 accuracies: 
 10x10 = 0.35677570093457944
-15x15 = 
+15x15 = 0.3560747663551402
 """
-
-
