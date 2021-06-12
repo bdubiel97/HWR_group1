@@ -41,6 +41,7 @@ def load_data():
 def classifySOM(som, data, x_data, y_data):
 	winmap = som.labels_map(x_data, y_data) 
 	default_class = np.sum(list(winmap.values())).most_common()[0][0]
+	print(default_class)
 	result = []
 
 	for d in data: 
@@ -51,8 +52,6 @@ def classifySOM(som, data, x_data, y_data):
 			result.append(default_class)
 	return result
 
-def classifySOTM(som, data):
-	print("hi")
 #################################################################
 
 archaic, hasmonean, herodian, arc_labels, has_labels, her_labels = load_data()
@@ -63,9 +62,11 @@ labels = list(itertools.chain(arc_labels, has_labels, her_labels))
 print(len(data))
 
 x_train, x_test, y_train, y_test = train_test_split(data, labels, stratify=labels)
+print("num archaic: ", y_train.count("Archaic"))
+print("num hasmonean: ", y_train.count("Hasmonean"))
+print("num herodian: ", y_train.count("Herodian"))
 
-
-som = MiniSom(15, 15, len(data[0]), learning_rate=0.5, sigma=3)
+som = MiniSom(25, 25, len(data[0]), learning_rate=0.5, sigma=3)
 som.train_random(x_train, 100)
 som.pca_weights_init(x_train)
 with open('som15x15.p', 'wb') as outfile:
@@ -80,6 +81,9 @@ print(classification_report(y_test, classifications))
 
 """ 
 accuracies: 
+6x6 = 0.35700934579439253
 10x10 = 0.35677570093457944
-15x15 = 0.3560747663551402
+15x15 = 0.3733644859813084
+20x20 = 
+25x25 = 0.3616822429906542
 """
