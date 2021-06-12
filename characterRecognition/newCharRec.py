@@ -1,5 +1,8 @@
 import tensorflow as tf
 import numpy as np
+import imageio
+from glob import glob, iglob
+import os
 from numpy import argmax
 import matplotlib.pyplot as plt
 from keras.models import Sequential
@@ -10,16 +13,27 @@ from keras.utils import np_utils, to_categorical
 from keras.layers import Conv2D, MaxPooling2D
 from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import OneHotEncoder
+from os import path, listdir
+
+import numpy as np
+from keras.preprocessing.image import load_img, img_to_array
+from tensorflow import expand_dims, nn
 
 
 data_dir = "monkbrill2" #Change this to the name of the folder with augmented/aggregated data
-test_dir =  "monkbrill2"
+input_folder =  "testSet"
 batch_size = 10
 image_size = 64
 
+Hebrew_alphabet = "אעבדגהחכךלםמןנפףקרסשתטץצויז"
 
-Hebrew_alphabet = ['א','ע','ב','ד','ג','ה','ח','כ','ך','ל','ם','מ','ן','נ','פ','ף','ק','ר','ס','ש','ת','ט','ץ','צ','ו','י','ז'] 
-print(Hebrew_alphabet)
+test = [x for x in Hebrew_alphabet]
+print(test[0], test[1], test[2], test[3], test[4], test[5], test[6], test[7], test[8], test[9], test[10])
+
+print(test)
+
+english_way_Hebrew = "א ע ב ד ג ה ח כ ך ל ם מ ן נ פ ף ק ר ס ש ת ט ץ צ ו י ז"[::-1]
+
 
 train_ds = tf.keras.preprocessing.image_dataset_from_directory(
   data_dir,
@@ -41,16 +55,18 @@ val_ds = tf.keras.preprocessing.image_dataset_from_directory(
   image_size=(image_size, image_size),
   batch_size=batch_size)
 
-test_ds = tf.keras.preprocessing.image_dataset_from_directory(
+'''test_ds = tf.keras.preprocessing.image_dataset_from_directory(
   test_dir,
   #labels='inferred',
   #label_mode='categorical',
   #subset="validation",
   #seed=123,
   image_size=(image_size, image_size),
-  batch_size=batch_size)
-
-
+  batch_size=batch_size)'''
+'''test = [imageio.imread(f) for f in iglob('testSet/*.jpg', recursive=True) if os.path.isfile(f)]
+datagen = tf.keras.preprocessing.image.ImageDataGenerator()
+test_ds = datagen.flow_from_directory(test_dir, batch_size = batch_size)
+'''
 class_names = train_ds.class_names
 #print(class_names)
 
@@ -102,6 +118,26 @@ history = model.fit(
   epochs=1 
 )
 
+results = []
+
+with open('results.txt', 'w') as fr:
+  for file in listdir(input_folder):
+    file = input_folder + "/" + file
+    #file = path.join(input_folder, file)
+    print(file)
+    img = load_img(
+      file, target_size=(64, 64)
+    )
+    img_array = img_to_array(img)
+    img_array = expand_dims(img_array, 0)  # Create a batch
+
+    predictions = model.predict(img_array)
+    score = argmax(predictions[0, :])
+
+    results.append(score)
+  letters = [Hebrew_alphabet[results[i]] for i in range(len(results))]
+  fr.write("".join(letters))
+'''
 predictions = model.predict(test_ds)
 #print(predictions[0][0])
 output_class = []
@@ -112,16 +148,10 @@ for i in range(0,len(test_ds)):
   #print(output_class)
 print(output_class)
 
-letters=[]
-for i in range(len(output_class)):
-  x = output_class[i]
-  print(x)
-  y = Hebrew_alphabet[x]
-  print(y)
-  letters.append(y)
-  print(letters[i])
-print(letters)
+letters = [Hebrew_alphabet[output_class[i]] for i in range(len(output_class))]
 
+with open('results.txt', 'w') as file:
+  file.write("".join(letters))'''
 
 plt.plot(history.history['accuracy'], label='accuracy')
 plt.plot(history.history['val_accuracy'], label = 'val_accuracy')
@@ -147,7 +177,6 @@ from sklearn.metrics import classification_report
 target_names = ["Class {}".format(i) for i in range(num_classes)]
 print(classification_report(test_Y, predicted_classes, target_names=target_names))
 '''
-
 
 
 
