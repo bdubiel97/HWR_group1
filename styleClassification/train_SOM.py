@@ -39,7 +39,7 @@ def load_data():
 	return archaic, hasmonean, herodian, arc_labels, has_labels, her_labels
 
 def classifySOM(som, data, x_data, y_data):
-	winmap = som.labels_map(x_data, y_data) 
+	winmap = som.labels_map(x_data, y_data)
 	default_class = np.sum(list(winmap.values())).most_common()[0][0]
 	print(default_class)
 	result = []
