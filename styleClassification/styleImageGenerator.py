@@ -46,8 +46,8 @@ for dirExtension in folders:
 			imMorph = elastic_morphing(im, amp, sigma, h, w)
 		imErode = cv.erode(im, kernel)
 		imDilate = cv.dilate(im, kernel)
-		imShearedRight = cv.warpAffine(im, M1, (w, h))
-		imShearedLeft = cv.warpAffine(im, M2, (w, h))
+		imShearedRight = cv.warpAffine(im, M1, (w, h), borderValue=(255,255,255))
+		imShearedLeft = cv.warpAffine(im, M2, (w, h), borderValue=(255,255,255))
 		
 
 
