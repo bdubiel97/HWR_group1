@@ -1,17 +1,11 @@
 import os
 from math import floor
-
-import cv2 as cv
 import numpy as np
+import cv2 as cv
 
-path = 'raw_data'
-output_path = 'training_input'
+WHITE = [255, 255, 255]
 
-IMAGE_MORPH = False
-if IMAGE_MORPH:
-    from imagemorph import elastic_morphing
-amps = [x / 10 for x in range(10)]
-sigmas = range(10)
+kernel = np.ones((3, 3), np.uint8)
 
 
 def pad(image, output_size):
@@ -30,23 +24,33 @@ def pad(image, output_size):
     pos_y = int(max(0, min(output_size[1] - size_y, output_size[1] / 2 - mean_y)))
 
     image = cv.copyMakeBorder(image, pos_x, output_size[0] - size_x - pos_x, pos_y, output_size[1] - size_y - pos_y,
-                              cv.BORDER_CONSTANT, value=[255, 255, 255])
+                              cv.BORDER_CONSTANT, value=WHITE)
     return image
 
 
-def pad_and_save(image, output_size, output_folder, image_name):
+def do_pad(image, output_size, output_folder, image_name):
     size_x, size_y, _ = image.shape
     # Resize if necessary
     if size_x > output_size[0] or size_y > output_size[1]:
         image = cv.resize(image, (floor(size_y / 2), floor(size_x / 2)))
 
-    image = pad(image=image, output_size=output_size)
-    cv.imwrite(os.path.join(output_folder, image_name), image)
+    return pad(image=image, output_size=output_size)
 
 
 def pre_process(path, output_path, output_size=None):
     if not output_size:
         output_size = [128, 128]
+    if not os.path.exists(output_path):
+        os.makedirs(output_path)
+
+    # Matrix 1 for shearing
+    M1 = np.float32([[1, -0.2, 0], [0, 1, 0]])
+    M1[0, 2] = -M1[0, 1] * output_size[0] / 2
+    M1[1, 2] = -M1[1, 0] * output_size[1] / 2
+    # Matrix 2 for shearing
+    M2 = np.float32([[1, 0, 0], [0.2, 1, 0]])
+    M2[0, 2] = -M2[0, 1] * output_size[0] / 2
+    M2[1, 2] = -M2[1, 0] * output_size[1] / 2
 
     for style in os.listdir(path):
         output_folder = os.path.join(output_path, style)
@@ -59,21 +63,23 @@ def pre_process(path, output_path, output_size=None):
                     image = cv.imread(image_path)
                     size_x, size_y, _ = image.shape
 
-                    if IMAGE_MORPH:
-                        for amp, sigma in [(a, s) for a in amps for s in sigmas]:
-                            # apply random elastic morphing
-                            image_m = elastic_morphing(np.array(image.convert("RGB")), amp, sigma, size_y, size_x)
-
-                            name = image_name.split('.')
-                            name[0] += '-a{}s{}'.format(amp, sigma)
-                            name = '.'.join(name)
-                            pad_and_save(image_m, output_size, output_folder, name)
-                    else:
-                        pad_and_save(image, output_size, output_folder, image_name)
+                    image = do_pad(image, output_size, output_folder, image_name)
+                    for n, i in [
+                        ("", image),
+                        ("-eroded", cv.erode(image, kernel)),
+                        ("-dilated", cv.dilate(image, kernel)),
+                        ("-right-shear", cv.warpAffine(image, M1, output_size, borderValue=WHITE)),
+                        ("-left-shear", cv.warpAffine(image, M2, output_size, borderValue=WHITE)),
+                    ]:
+                        save_name = image_name.split('.')
+                        save_name[0] += n
+                        save_name = '.'.join(save_name)
+                        cv.imwrite(os.path.join(output_folder, save_name), i)
+                        # if style != 'Archaic':
+                        #     break
 
 
 if __name__ == '__main__':
-    if not os.path.exists(output_path):
-        os.makedirs(output_path)
-
+    path = 'raw_data'
+    output_path = 'training_input'
     pre_process(path=path, output_path=output_path)
