@@ -75,8 +75,6 @@ def pre_process(path, output_path, output_size=None):
                         save_name[0] += n
                         save_name = '.'.join(save_name)
                         cv.imwrite(os.path.join(output_folder, save_name), i)
-                        # if style != 'Archaic':
-                        #     break
 
 
 if __name__ == '__main__':
