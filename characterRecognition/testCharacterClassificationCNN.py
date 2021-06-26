@@ -1,16 +1,14 @@
 import tensorflow as tf
 import keras
-import glob
-import time
 from numpy import argmax
 from os import path, listdir, makedirs
-from keras.preprocessing.image import load_img, img_to_array
 from tensorflow import expand_dims, nn
+from keras.preprocessing.image import load_img, img_to_array
 
 results = []
 image_size = 128
-input_folder = "testSet"  # Change this to the folder containing the test set, with subfolders of the individual files, subfolders per line, with segmented characters
-output_folder = "output"
+input_folder = "sorted_output"  # Change this to the folder containing the test set, with subfolders of the individual files, subfolders per line, with segmented characters
+output_folder = "characterOutput"
 
 Hebrew_alphabet = "אעבדגהחכךלםמןנפףקרסשתטץצויז"
 
@@ -28,7 +26,6 @@ for input_file in listdir(input_folder):
             results = []
             letter_path = path.join(row_path, row)
             print(letter_path)
-            time.sleep(2)
             for letter in sorted(listdir(letter_path)):
                 if letter.endswith('.jpg'):
                     # Open images and predict letter
@@ -36,7 +33,6 @@ for input_file in listdir(input_folder):
                     img = load_img(
                         file, target_size=(image_size, image_size)
                     )
-                    print(file)
                     img_array = img_to_array(img)
                     img_array = expand_dims(img_array, 0)  # Create a batch
 
