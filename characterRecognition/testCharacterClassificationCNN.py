@@ -8,7 +8,7 @@ from keras.preprocessing.image import load_img, img_to_array
 results = []
 image_size = 128
 input_folder = "sorted_output"  # Change this to the folder containing the test set, with subfolders of the individual files, subfolders per line, with segmented characters
-output_folder = "characterOutput"
+output_folder = "character_results"
 
 Hebrew_alphabet = "אעבדגהחכךלםמןנפףקרסשתטץצויז"
 
