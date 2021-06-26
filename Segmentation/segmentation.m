@@ -1,10 +1,10 @@
 function segmentation(path, file, output_size, showImages)
     %% 1.Reading img
     I = im2double(imread(fullfile(path, file)));
-    I_width = size(I,1); %new
-    I_height = size(I,2); %new
-    TotalPixels =  I_width * I_height; %new
-    Threshold = TotalPixels* 0.00005633; %new
+%     I_width = size(I,1); %new
+%     I_height = size(I,2); %new
+%     TotalPixels =  I_width * I_height; %new
+%     Threshold = TotalPixels* 0.00005633; %new
     if showImages
         imshow(I); 
     end
@@ -25,6 +25,13 @@ function segmentation(path, file, output_size, showImages)
 
     %% 4.Discarding noise-like objects
     [L,N]=bwlabel(I3);              %function for labelling separate binarized objects
+    
+    checkArea = regionprops(I3,'Area'); %new
+    checkArea = struct2table(checkArea); %new
+    checkArea = table2array(checkArea); %new
+    biggestLetter = max(checkArea); %new
+    Threshold = biggestLetter * 0.085; %new
+    
     Acc_big = logical(I3*0);        %initialization of the accumulated images
     Acc_small = logical(I3*0);
 
