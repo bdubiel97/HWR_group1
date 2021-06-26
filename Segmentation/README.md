@@ -7,7 +7,7 @@ It has 3 parameters:
 -|Parameter|Description
 --- | --- | ---
 1. | debug            | `1` in case you want to pause between every input file, else `0`
-2. | output size      | According to the given test images, output size should be set to '[128 128]'
+2. | output size      | According to the given test images, output size should be set to `[128 128]`
 3. | showImages       | `1` if you want MATLAB to plot figures, else `0`
 Example: `main(0, [128 128], 0)`  
 
