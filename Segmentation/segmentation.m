@@ -4,7 +4,7 @@ function segmentation(path, file, output_size, showImages)
     I_width = size(I,1); %new
     I_height = size(I,2); %new
     TotalPixels =  I_width * I_height; %new
-    Threshold = TotalPixels* 0.0005633; %new
+    Threshold = TotalPixels* 0.00005633; %new
     if showImages
         imshow(I); 
     end
