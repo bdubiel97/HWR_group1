@@ -3,7 +3,7 @@ from os import path
 
 import matplotlib.pyplot as plt
 
-from model import RecognitionModel
+from styleClassification.CNN.model import RecognitionModel
 
 
 def plot_result(history, title="Basic Model"):

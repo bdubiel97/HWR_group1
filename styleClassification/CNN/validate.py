@@ -4,7 +4,7 @@ import numpy as np
 from keras.preprocessing.image import load_img, img_to_array
 from tensorflow import expand_dims, nn
 
-from model import RecognitionModel
+from styleClassification.CNN.model import RecognitionModel
 
 
 def load_model(model_name, categories):
@@ -52,7 +52,7 @@ def validate_model(model_name, class_names):
 
 
 if __name__ == '__main__':
-    input_folder = path.join('..', 'Segmentation', 'output')
+    input_folder = path.join('..', '..', 'Segmentation', 'output')
     model_folder = 'trained_models'
     model_name = path.join(model_folder, "plus_e_d_shear", "model")
 
