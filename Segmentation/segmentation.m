@@ -1,6 +1,10 @@
 function segmentation(path, file, output_size, showImages)
     %% 1.Reading img
     I = im2double(imread(fullfile(path, file)));
+    I_width = size(I,1); %new
+    I_height = size(I,2); %new
+    TotalPixels =  I_width * I_height; %new
+    Threshold = TotalPixels* 0.0005633; %new
     if showImages
         imshow(I); 
     end
@@ -33,7 +37,7 @@ function segmentation(path, file, output_size, showImages)
         Ak = nnz(Mk);
 
         %Accumulation
-        if Ak > 550 %if object is smaller than 550pixels, treat as a noise and exclude
+        if Ak > Threshold  %new
           Acc_big = or(Acc_big,Mk);
         else
           Acc_small = or(Acc_small,Mk);
