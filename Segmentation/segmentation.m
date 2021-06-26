@@ -90,9 +90,9 @@ function segmentation(path, file, output_size, showImages)
             info(k).image = imcrop(I4,info(k).BoundingBox); 
             info(k).image = imdilate(info(k).image, se);
             name = strsplit(file, '.');
-            name = strcat(fullfile(name(1), strcat(int2str(k), "-clear", ".jpg")));
-            saveImage(info(k).image, name(1), output_size); 
-            
+            coords = sprintf("-x=%.0f-y=%.0f-h=%d", info(k).BoundingBox(1), info(k).BoundingBox(2), info(k).BoundingBox(3));
+            name = strcat(fullfile(name(1), strcat(int2str(k), "-clear", coords, ".jpg")));
+            saveImage(info(k).image, name(1), output_size);
         end
                 
         if showImages
@@ -155,15 +155,10 @@ function segmentation(path, file, output_size, showImages)
         
         %Saving splitted images
         name = strsplit(file, '.');
-        nameL = strcat(fullfile(name(1), strcat(int2str(k), "-L", ".jpg")));
-        nameR = strcat(fullfile(name(1), strcat(int2str(k), "-R", ".jpg")));
+        coords = sprintf("-x=%.0f-y=%.0f-h=%d", info2(k).BoundingBox(1), info2(k).BoundingBox(2), info2(k).BoundingBox(3));
+        nameL = strcat(fullfile(name(1), strcat(int2str(k), "-L", coords, ".jpg")));
+        nameR = strcat(fullfile(name(1), strcat(int2str(k), "-R", coords, ".jpg")));
         saveImage(I_segmented_L, nameL(1), output_size); 
         saveImage(I_segmented_R, nameR(1), output_size); 
     end
-    
-    
-    
-    
-    
-    
 end
