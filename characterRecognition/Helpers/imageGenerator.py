@@ -10,7 +10,7 @@ from skimage import io
 from imagemorph import elastic_morphing 
 
 #Set this to the data directory with subfolders per character. The augmented data will be added into it. 
-imDir = "monkbrill1"
+imDir = "monkbrill2"
 amp, sigma = 0.9, 9
 kernel = np.ones((3,3), np.uint8)
 
