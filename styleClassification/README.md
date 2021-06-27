@@ -16,7 +16,7 @@ The SOM is trained using the morphed dataset using the helper file `styleImageGe
 The file `train_SOM.py` can train the SOM using the morphed dataset, which must be in a folder called `characters_for_style_classification_morph`. The file saves the SOM as `som.py` and provides a classification accuracy for the characters in the testing data.
 
 ### Testing 
-The file `test_SOM.py` can be used to test the SOM on the documents from the different periods. Running the file will create a directory called `style_results` which will include a result for each document that is being tested. These files will be named `document_style.txt`, where "document" is substituted with the name of each file that is classified.
+The file `test_SOM.py` can be used to test the SOM on the documents from the different periods. The training data, which must be in a folder called `characters_for_style_classification_morph`, is also required to run this file. Running the file will create a directory called `style_results` which will include a result for each document that is being tested. These files will be named `document_style.txt`, where "document" is substituted with the name of each file that is classified.
 
 ## CNN
 ### Training
