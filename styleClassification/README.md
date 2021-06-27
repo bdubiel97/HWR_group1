@@ -10,7 +10,7 @@ The SOTM is trained using the morphed dataset using the helper file `styleImageG
 The file `train_SOTM.py` can train the SOTM using the morphed dataset, which must be in a folder called `characters_for_style_classification_morph`. The file saves three separate files: `SOTM_arc.p`, `SOTM_has.p` and `SOTM_her.p`. 
 
 ### Testing
-The file `test_SOTM.py` can be used to test the SOTM on documents from the different periods. To test the SOTM, the zip files, `SOTM_arc.p.zip`, `SOTM_has.p.zip` and `SOTM_her.p.zip`, must be decompressed first. Running the file will create a directory called `style_results` which will include a result for each document that is being tested. These files will be named `document_style.txt`, where "document" is substituted with the name of each file that is classified.
+The file `test_SOTM.py` can be used to test the SOTM on documents from the different periods. Running the file will create a directory called `results` in the main directory which will include a result for each document that is being tested. These files will be named `document_style.txt`, where "document" is substituted with the name of each file that is classified.
 
 ## Self-organizing Map
 The SOM is trained using the morphed dataset using the helper file `styleImageGenerator.py`. This file takes a class from the training data and uses the morphing tool to morph images from the training data.
@@ -19,7 +19,7 @@ The SOM is trained using the morphed dataset using the helper file `styleImageGe
 The file `train_SOM.py` can train the SOM using the morphed dataset, which must be in a folder called `characters_for_style_classification_morph`. The file saves the SOM as `som.py` and provides a classification accuracy for the characters in the testing data.
 
 ### Testing 
-The file `test_SOM.py` can be used to test the SOM on the documents from the different periods. The training data, which must be in a folder called `characters_for_style_classification_morph`, is also required to run this file. Running the file will create a directory called `style_results` which will include a result for each document that is being tested. These files will be named `document_style.txt`, where "document" is substituted with the name of each file that is classified.
+The file `test_SOM.py` can be used to test the SOM on the documents from the different periods. The training data, which must be in a folder called `characters_for_style_classification_morph`, is also required to run this file. Running the file will create a directory called `results` in the main directory which will include a result for each document that is being tested. These files will be named `document_style.txt`, where "document" is substituted with the name of each file that is classified.
 
 ## CNN
 ### Training
