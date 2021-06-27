@@ -75,7 +75,7 @@ if __name__ == "__main__":
 	x_train, x_test, y_train, y_test = train_test_split(data, labels, stratify=labels)
 
 	# create the self-organizing map
-	som = MiniSom(6, 6, len(data[0]), learning_rate=0.5, sigma=3)
+	som = MiniSom(15, 15, len(data[0]), learning_rate=0.5, sigma=3)
 	som.train_random(x_train, 100) # train
 	som.pca_weights_init(x_train)
 	print("SOM has been trained.")
