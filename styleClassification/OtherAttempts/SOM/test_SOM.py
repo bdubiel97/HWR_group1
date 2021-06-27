@@ -1,5 +1,6 @@
-# Testing the Self-organizing map
-
+'''
+File for testing the Self-organizing Map
+'''
 import numpy as np
 import imageio
 from glob import glob, iglob
@@ -10,31 +11,37 @@ import itertools
 import pickle
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, classification_report
-from os import path, listdir
+from os import path, listdir, makedirs
 
-input_folder = path.join('images_for_style', 'output')
+input_folder = path.join('../../../Segmentation', 'output')
+output_folder = "style_results"
+img_size = 64
 
 def load_data():
+	'''
+	This function loads the data from "characters_for_style_classification_morph" 
+	per class and creates 6 arrays, data and labels for each class
+	'''
 	archaic = []
 	hasmonean = []
 	herodian = []
-	arc = [f for f in iglob('characters_for_style_classification/Archaic/**/*.jpg', recursive=True) if os.path.isfile(f)]
-	has = [f for f in iglob('characters_for_style_classification/Hasmonean/**/*.jpg', recursive=True) if os.path.isfile(f)]
-	her = [f for f in iglob('characters_for_style_classification/Herodian/**/*.jpg', recursive=True) if os.path.isfile(f)]
+	arc = [f for f in iglob('characters_for_style_classification_morph/Archaic/**/*.jpg', recursive=True) if os.path.isfile(f)]
+	has = [f for f in iglob('characters_for_style_classification_morph/Hasmonean/**/*.jpg', recursive=True) if os.path.isfile(f)]
+	her = [f for f in iglob('characters_for_style_classification_morph/Herodian/**/*.jpg', recursive=True) if os.path.isfile(f)]
 
 	for image in arc:
 		im = imageio.imread(image)
-		im = np.resize(im, (64, 64, 3))
+		im = np.resize(im, (img_size, img_size, 3))
 		im = im.reshape(np.prod(im.shape))
 		archaic.append(im)
 	for image in has:
 		im = imageio.imread(image)
-		im = np.resize(im, (64, 64, 3))
+		im = np.resize(im, (img_size, img_size, 3))
 		im = im.reshape(np.prod(im.shape))
 		hasmonean.append(im)
 	for image in her:
 		im = imageio.imread(image)
-		im = np.resize(im, (64, 64, 3))
+		im = np.resize(im, (img_size, img_size, 3))
 		im = im.reshape(np.prod(im.shape))
 		herodian.append(im)
 
@@ -45,6 +52,9 @@ def load_data():
 
 
 def classifySOM(som, data_point, winmap):
+	'''
+	This function classifies the testing data per character.
+	'''
 	default_class = np.sum(list(winmap.values())).most_common()[0][0]
 	result = ""
 
@@ -57,35 +67,34 @@ def classifySOM(som, data_point, winmap):
 
 
 if __name__ == '__main__':
-	with open('som6x6.p', 'rb') as infile:
+	# load the saved SOM
+	with open('som.p', 'rb') as infile:
 		som = pickle.load(infile)
 	
+	# load the training data to create the win map based on the data
 	archaic, hasmonean, herodian, arc_labels, has_labels, her_labels = load_data()
 	train_data = list(itertools.chain(archaic,hasmonean, herodian))
 	train_labels = list(itertools.chain(arc_labels, has_labels, her_labels))
-	win_map = som.labels_map(train_data, train_labels)
+	# create the win map that will be used for classification
+	win_map = som.labels_map(train_data, train_labels) 
 
+	# create the results directory if it does not exist
+	if not path.exists(output_folder):
+		makedirs(output_folder)
 
+	# for each folder (document) in the output, classify the document
 	for folder in listdir(input_folder):
-		print(folder)
 		result = []
-		count = 0
 		files = [f for f in iglob(path.join(input_folder, folder, '*.jpg'), recursive=True) if os.path.isfile(f)]
-		print(len(files))
 		for file in files:
 			im = imageio.imread(file)
-			im = np.resize(im, (64, 64, 3))
+			im = np.resize(im, (img_size, img_size, 3))
 			im = im.reshape(np.prod(im.shape))
-			result.append(classifySOM(som, im, win_map))
-			count += 1
-		print("archaic: ", result.count("Archaic"))
-		print("hasmonean: ", result.count("Hasmonean"))
-		print("herodian: ", result.count("Herodian"))
-		decision = max(result, key = result.count)
-		print("results: ", decision)
-		print(count)
-		
-		output_path = folder + '_style.txt'
+			result.append(classifySOM(som, im, win_map)) # find the classification of each character in the document
+		decision = max(result, key = result.count) # determine the most frequent classification for the final decision
+
+		# write the decision to a file with the name of the folder 
+		output_path = path.join(output_folder, folder + '_style.txt')
 		with open(output_path, 'w') as output:
 			output.write(decision)
 
