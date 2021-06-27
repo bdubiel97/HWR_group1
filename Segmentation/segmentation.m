@@ -1,4 +1,4 @@
-function segmentation(path, file, output_size, showImages)
+function segmentation(path, file, output_size, debug, showImages)
     %% 1.Reading img
     I = im2double(imread(fullfile(path, file)));
 
@@ -101,7 +101,7 @@ function segmentation(path, file, output_size, showImages)
             name = strsplit(file, '.');
             coords = sprintf("-x=%.0f-y=%.0f-h=%d", info(k).BoundingBox(1), info(k).BoundingBox(2), info(k).BoundingBox(3));
             name = strcat(fullfile(name(1), strcat(int2str(k), "-clear", coords, ".jpg")));
-            saveImage(info(k).image, name(1), output_size);
+            saveImage(info(k).image, name(1), output_size, debug);
         end
                 
         if showImages
@@ -167,7 +167,7 @@ function segmentation(path, file, output_size, showImages)
         coords = sprintf("-x=%.0f-y=%.0f-h=%d", BB2(1), BB2(2), BB2(3));
         nameL = strcat(fullfile(name(1), strcat(int2str(k), "-L", coords, ".jpg")));
         nameR = strcat(fullfile(name(1), strcat(int2str(k), "-R", coords, ".jpg")));
-        saveImage(I_segmented_L, nameL(1), output_size); 
-        saveImage(I_segmented_R, nameR(1), output_size); 
+        saveImage(I_segmented_L, nameL(1), output_size, debug); 
+        saveImage(I_segmented_R, nameR(1), output_size, debug); 
     end
 end

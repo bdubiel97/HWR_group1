@@ -1,4 +1,4 @@
-function saveImage(image, name, output_size)
+function saveImage(image, name, output_size, debug)
     %1. Size of the image within the defined range
     ratio = max(size(image));
     ratio = 0.8*output_size/ratio;
@@ -15,7 +15,9 @@ function saveImage(image, name, output_size)
         image = ~image;
 
         % Write segmented image to file
-        disp(fullfile(path, name));
+        if debug
+            disp(fullfile(path, name));
+        end
         imwrite(image, fullfile(path, name));
     end
 end

@@ -13,3 +13,7 @@ Each of the pipeline's subparts have their own READMEs. The pipeline starts with
 Then, in CharacterClassification, first the file `order_segmented_characters.py` from Helpers should be run to ensure the correct ordering for the writing to file of the classification. Then, `testCharacterClassificationCNN.py` can be run to produce printed output per file in a new folder called `character_results`,  and can be checked here. 
 
 At the same time, for style classification, `test_SOTM.py` can be run to print the output classifications per file in the folder `style_results`. There are several other methods included in the main style classification folder, however, the SOTM outperformed these methods. 
+
+## Single line running
+To run the whole pipeline using a single command, open a terminal in the main (`HWR_group1`) folder and call the bash 
+file using the following command: `MAIN.sh {path_to_input_files}`

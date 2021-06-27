@@ -1,4 +1,6 @@
 function main(input_folder, output_folder, output_size, debug, showImages)
+    input_folder = string(input_folder);
+    output_folder = string(output_folder);
     files = getInputFiles(input_folder);
     
     % Create output folders when necessary
@@ -13,7 +15,7 @@ function main(input_folder, output_folder, output_size, debug, showImages)
             mkdir(fullfile(folder));
         end
         
-        segmentation(files(i).folder, files(i).name, output_size, showImages);
+        segmentation(files(i).folder, files(i).name, output_size, debug, showImages);
         if debug
             pause;
         end
