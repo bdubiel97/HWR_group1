@@ -1,6 +1,6 @@
 # Segmentation
 ## Character segmentation example
-* In order to run the code, Image Processing Toolbox must be installed!*
+* In order to run the code, Image Processing Toolbox must be installed within MATLAB environment*
 
 Run the main.m file using MATLAB. It will search for input images in a directory named `input`, taking all images found.
 It has 3 parameters:
