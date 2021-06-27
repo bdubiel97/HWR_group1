@@ -3,7 +3,9 @@ Semestral project for Handwriting Recognition subject at the University of Groni
 Worked on by Blazej Dubiel (s4525256), Rick de Jonge (s2775832), Ella Collins (s3327469), and Manon Heinhuis (s3378438).
 
 The dependencies used in this pipeline can be obtained by running:
-  pip3 install -r requirements.txt
+```
+pip3 install -r requirements.txt
+```
 
 Each of the pipeline's subparts have their own READMEs. The pipeline starts with the segmentation, for which the input should be placed within the Segmentation folder, named "input", preferably as .jpg files. From then on, the directory names are correctly implemented for all code files that require them.
 
