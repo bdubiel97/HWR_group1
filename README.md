@@ -15,7 +15,7 @@ Then, in CharacterClassification, first the file `order_segmented_characters.py`
 At the same time, for style classification, `test_SOTM.py` can be run to print the output classifications per file in the folder `style_results`. There are several other methods included in the main style classification folder, however, the SOTM outperformed these methods. 
 
 ## Single line running
-To run the whole pipeline using a single command, open a terminal in the main (`HWR_group1`) folder and add MATLAB to your path by doing (Changing the path to where the matlab application is stored:
+To run the whole pipeline using a single command, open a terminal in the main (`HWR_group1`) folder and and add MATLAB to your path by changing the path to where the matlab application is stored:
 
 export PATH=/Applications/MATLAB_R2020a.app/bin/:$PATH
 
