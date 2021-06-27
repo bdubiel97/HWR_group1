@@ -3,8 +3,8 @@ function isBlob = checkBlob(image)
     % These are probably just noise
     info = regionprops(image, 'Circularity');
     if (min(size(info)) < 1) || (info.Circularity < 0.65)
-        isBlob = 0;
+        isBlob = false;
     else
-        isBlob = 1;
+        isBlob = true;
     end
 end

@@ -1,23 +1,14 @@
-function main(debug, output_size, showImages)
-    files = getInputFiles("input");
+function main(input_folder, output_folder, output_size, debug, showImages)
+    files = getInputFiles(input_folder);
     
     % Create output folders when necessary
-    if ~exist('output', 'dir')
-        mkdir("output");
-    end
-
-    if ~exist(fullfile("output_failures"), 'dir')
-        mkdir(fullfile("output_failures"));
+    if ~exist(output_folder, 'dir')
+        mkdir(output_folder);
     end
     
     for i = 1:size(files, 1)
         name = strsplit(files(i).name, '.');
-        folder = fullfile("output", name(1));
-        if ~exist(fullfile(folder), 'dir')
-            mkdir(fullfile(folder));
-        end
-
-        folder = fullfile("output_failures", name(1));
+        folder = fullfile(output_folder, name(1));
         if ~exist(fullfile(folder), 'dir')
             mkdir(fullfile(folder));
         end

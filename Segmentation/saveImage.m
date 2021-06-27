@@ -7,17 +7,15 @@ function saveImage(image, name, output_size)
     [image, ratio] = centerObject(image, output_size);
     isBlob = checkBlob(image);
 
-    %2. Dots-like objects treated as failure
-    if ((0.7 < ratio) || (ratio < 0.035)) || isBlob
-        path = fullfile(pwd, "output_failures");
-    else
+    %2. Dots-like objects are discarded
+    if (0.7 > ratio) && (ratio > 0.035) && ~isBlob
         path = fullfile(pwd, "output"); 
+        
+        % Make sure image is a black letter on a white background
+        image = ~image;
+
+        % Write segmented image to file
+        disp(fullfile(path, name));
+        imwrite(image, fullfile(path, name));
     end
-    
-    % Make sure image is a black letter on a white background
-    image = ~image;
-    
-    % Write segmented image to file
-    disp(fullfile(path, name));
-    imwrite(image, fullfile(path, name));
 end

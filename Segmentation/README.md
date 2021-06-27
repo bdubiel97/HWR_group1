@@ -7,9 +7,11 @@ It has 3 parameters:
 
 Nr. |Parameter          |Description|
 --- | ---               | ---|
-1.  | debug             | `true` in case you want to pause between every input file, else `false`.|
-2.  | output size       | The output size should be set to `[128 128]` to conform with the input to the later stages of the pipeline.|
-3.  | showImages        | `true` if you want MATLAB to plot figures, else `false`.|
+1.  | input_folder      | The path to the input images.|
+2.  | output_fodler     | The path to where the results will be stored.|
+3.  | output size       | The output size should be set to `[128 128]` to conform with the input to the later stages of the pipeline.|
+4.  | debug             | `true` in case you want to pause between every input file, else `false`.|
+5.  | showImages        | `true` if you want MATLAB to plot figures, else `false`.|
 
 To segment the characters ready for the subsequent parts in the pipeline, please use `main(0, [128 128], 0)` to run the 
 program using Matlab.
