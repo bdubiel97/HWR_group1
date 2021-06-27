@@ -13,7 +13,7 @@ The file `test_SOTM.py` can be used to test the SOTM on documents from the diffe
 The SOM is trained using the morphed dataset using the helper file `styleImageGenerator.py`. This file takes a class from the training data and uses the morphing tool to morph images from the training data.
 
 ### Training 
-The file `train_SOMpy` can train the SOM using the morphed dataset, which must be in a folder called `characters_for_style_classification_morph`. The file saves the SOM as `som.py` and provides a classification accuracy for the characters in the testing data.
+The file `train_SOM.py` can train the SOM using the morphed dataset, which must be in a folder called `characters_for_style_classification_morph`. The file saves the SOM as `som.py` and provides a classification accuracy for the characters in the testing data.
 
 ### Testing 
 The file `test_SOM.py` can be used to test the SOM on the documents from the different periods. Running the file will create a directory called `style_results` which will include a result for each document that is being tested. These files will be named `document_style.txt`, where "document" is substituted with the name of each file that is classified.
