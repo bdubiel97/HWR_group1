@@ -14,7 +14,7 @@ from sklearn.metrics import accuracy_score, classification_report
 from os import path, listdir, makedirs
 
 input_folder = path.join('../../../Segmentation', 'output')
-output_folder = "style_results"
+output_folder = "../../../results"
 img_size = 64
 
 def load_data():

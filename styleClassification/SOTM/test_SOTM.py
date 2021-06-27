@@ -11,7 +11,7 @@ from SOM.som import SOM
 from os import path, listdir, makedirs
 
 input_folder = path.join('../../Segmentation', 'output')
-output_folder = "style_results"
+output_folder = "../../results"
 img_size = 128
 classes = {0: 'Archaic', 1: 'Hasmonean', 2: 'Herodian'}
 
