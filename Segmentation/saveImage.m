@@ -6,9 +6,10 @@ function saveImage(image, name, output_size)
     image = imresize(image, floor(ratio.*size(image)), 'bilinear');
        
     [image, ratio] = centerObject(image, output_size);
+    isBlob = checkBlob(image);
 
     %2. Dots-like objects treated as failure
-    if (0.7 < ratio) || (ratio < 0.035) 
+    if ((0.7 < ratio) || (ratio < 0.035)) || (isBlob ==1)
         path = fullfile(pwd, "output_failures");
     else
         path = fullfile(pwd, "output"); 
