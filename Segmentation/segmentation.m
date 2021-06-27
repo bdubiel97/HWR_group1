@@ -7,7 +7,6 @@ function segmentation(path, file, output_size, showImages)
     end
 
     %% 2.Binarization
-%     I2 = 1-imbinarize(I); 
     I2 = autobin(I);
     if showImages
         figure(2);
@@ -24,11 +23,12 @@ function segmentation(path, file, output_size, showImages)
     %% 4.Discarding noise-like objects
     [L,N]=bwlabel(I3);              %function for labelling separate binarized objects
     
-    checkArea = regionprops(I3,'Area'); %new
-    checkArea = struct2table(checkArea); %new
-    checkArea = table2array(checkArea); %new
-    biggestLetter = max(checkArea); %new
-    Threshold = biggestLetter * 0.085; %new
+    % Determine noise threshold
+    checkArea = regionprops(I3,'Area');
+    checkArea = struct2table(checkArea);
+    checkArea = table2array(checkArea);
+    biggestLetter = max(checkArea);
+    Threshold = biggestLetter * 0.085;
     
     Acc_big = logical(I3*0);        %initialization of the accumulated images
     Acc_small = logical(I3*0);
@@ -72,7 +72,7 @@ function segmentation(path, file, output_size, showImages)
 
     %% 6. 1st Saving (merged vs clean)
     info = regionprops(I4,'Boundingbox','Area','Perimeter','Centroid') ;
-    [L,N]=bwlabel(I4);
+    [L,~]=bwlabel(I4);
     AccMerged = logical(I4*0);
     AccSegmented = logical(I4*0);
     
@@ -119,7 +119,7 @@ function segmentation(path, file, output_size, showImages)
     for k = 1: length(info2)
         
         BB2 = info2(k).BoundingBox;
-        info2(k).image = imcrop(AccMerged,info2(k).BoundingBox);%cropping bb for each obj
+        info2(k).image = imcrop(AccMerged, BB2);%cropping bb for each obj
         X = info2(k).image;
         height = size(X,1);
         width =  size(X,2);
@@ -145,7 +145,7 @@ function segmentation(path, file, output_size, showImages)
         end
         
         %Horizontal and Vertical profile of the image
-        [rows, columns] = size(X); 
+        [rows, ~] = size(X); 
         verticalProfile = sum(X, 2);
         horizontalProfile = sum(X, 1);
         amplitude = 1; % Scaling factor
@@ -155,7 +155,7 @@ function segmentation(path, file, output_size, showImages)
         x1 = round(size(horizontalProfile,2)* (0.2));
         x2 = round(size(horizontalProfile,2)* (0.8));
         y_temp =y(:,x1:x2);
-        [ymax, idx] = max(y_temp);
+        [~, idx] = max(y_temp);
         x_coords = idx + x1;
         
         %Dividing the image into two parts ([xmin ymin width height];)
@@ -164,7 +164,7 @@ function segmentation(path, file, output_size, showImages)
         
         %Saving splitted images
         name = strsplit(file, '.');
-        coords = sprintf("-x=%.0f-y=%.0f-h=%d", info2(k).BoundingBox(1), info2(k).BoundingBox(2), info2(k).BoundingBox(3));
+        coords = sprintf("-x=%.0f-y=%.0f-h=%d", BB2(1), BB2(2), BB2(3));
         nameL = strcat(fullfile(name(1), strcat(int2str(k), "-L", coords, ".jpg")));
         nameR = strcat(fullfile(name(1), strcat(int2str(k), "-R", coords, ".jpg")));
         saveImage(I_segmented_L, nameL(1), output_size); 

@@ -1,12 +1,10 @@
 function isBlob = checkBlob(image)
-
-    % Function for checking if image after resizing is lamed
-    info = regionprops(image,'Circularity'); %&& info.Circularity > 0.2
-    
-    if info.Circularity > 0.65
-        isBlob = 1;
-    else
+    % Classify letters as a blob if they are sufficiently round
+    % These are probably just noise
+    info = regionprops(image, 'Circularity');
+    if (min(size(info)) < 1) || (info.Circularity < 0.65)
         isBlob = 0;
+    else
+        isBlob = 1;
     end
-    
 end
