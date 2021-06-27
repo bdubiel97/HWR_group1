@@ -70,4 +70,6 @@ def from_segmentation_to_character_recognition(input_path, output_path):
 
 
 if __name__ == '__main__':
-    from_segmentation_to_character_recognition(input_path="../../Segmentation/output", output_path="../sorted_output")
+    input_path = path.join('..', '..', 'Segmentation', 'output')
+    output_path = path.join('..', 'sorted_output')
+    from_segmentation_to_character_recognition(input_path=input_path, output_path=output_path)

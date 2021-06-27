@@ -2,8 +2,8 @@ function saveImage(image, name, output_size)
     
     %1. Size of the image within the defined range
     ratio = max(size(image));
-    ratio = 100/ratio;
-    image = imresize(image, floor(ratio*size(image)), 'bilinear');
+    ratio = 0.8*output_size/ratio;
+    image = imresize(image, floor(ratio.*size(image)), 'bilinear');
        
     [image, ratio] = centerObject(image, output_size);
 

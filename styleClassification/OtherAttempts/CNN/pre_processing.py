@@ -1,7 +1,8 @@
 import os
 from math import floor
-import numpy as np
+
 import cv2 as cv
+import numpy as np
 
 WHITE = [255, 255, 255]
 
@@ -28,7 +29,7 @@ def pad(image, output_size):
     return image
 
 
-def do_pad(image, output_size, output_folder, image_name):
+def prepare_for_padding(image, output_size):
     size_x, size_y, _ = image.shape
     # Resize if necessary
     if size_x > output_size[0] or size_y > output_size[1]:
@@ -63,7 +64,7 @@ def pre_process(path, output_path, output_size=None):
                     image = cv.imread(image_path)
                     size_x, size_y, _ = image.shape
 
-                    image = do_pad(image, output_size, output_folder, image_name)
+                    image = prepare_for_padding(image, output_size)
                     for n, i in [
                         ("", image),
                         ("-eroded", cv.erode(image, kernel)),
